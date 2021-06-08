@@ -16,14 +16,14 @@ INSERT INTO role (title, salary, department_id) VALUE
 ('salesman', 100000, 5),
 ('sales Lead', 150000, 5);
 
-INSERT INTO employee (first_name, last_name, role_id, manager_id);
+INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUE
 ('Allison', 'Wonderland', 1, NULL),
 ('Peter', 'Pan', 2, 2),
 ('Mary', 'Poppins', 3, NULL),
 ('Dory', 'Fish', 4, NULL),
 ('Snow', 'White', 5, NULL),
 ('Cinderella', 'Space Cadet', 6, NULL),
-('Pocahontas', 'Smith', 7, 7),
+('Pocahontas', 'Smith', 7, 7);
 
 
 

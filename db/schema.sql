@@ -6,12 +6,12 @@ USE employee_db;
 
 CREATE TABLE department(
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(30) NOT NULL
+    name VARCHAR 30 NOT NULL
 );
 
 CREATE TABLE role(
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    title VARCHAR(30) NOT NULL,
+    title VARCHAR 30 NOT NULL,
     salary DECIMAL(10,2) NOT NULL,
     department_id INTEGER NOT NULL,
     FOREIGN KEY (department_id) REFERENCES department(id)
