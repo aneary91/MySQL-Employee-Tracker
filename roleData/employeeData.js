@@ -1,7 +1,7 @@
 const connection = require('../configuration/connection');
 
 function employeeData() {
-    return connection.query('SELECT employeeId, firstName, lastName, title, salary, departmentName, managerId, concat(firstName, ' ' ,lastName) as combinedName FROM employee JOIN roles ON employee.roleId = roles.id JOIN department ON roles.departmentId = department.departmentId');
+    return connection.query('SELECT employee_id, first_name, last_name, title, salary, department_name, manager_id, concat(first_name, ' ' ,last_name) as combinedName FROM employee JOIN roles ON employee.role_id = roles.id JOIN department ON roles.department_id = department.department_id');
 
 }
 
