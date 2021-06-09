@@ -9,6 +9,13 @@ class DB {
     addDepartment(department){
         return this.connection.query('INSERT INTO department SET ?', department)
     }
+
+    viewAllDepartments(){
+        return this.connection.query('SELECT department.id, department.name;')
+    }
+
+
+
 }
 module.exports = new DB(connection);
 
