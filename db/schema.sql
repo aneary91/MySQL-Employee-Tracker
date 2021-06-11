@@ -27,6 +27,10 @@ CREATE TABLE  employee(
     FOREIGN KEY (manager_id) REFERENCES employee(id)
 );
 
+CREATE TABLE manager (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    manager_id VARCHAR (30) NOT NULL,
+);
 
 
 
