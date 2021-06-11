@@ -1,11 +1,12 @@
 const inquirer = require("inquirer");
 const db = require("./db");
-require("console.table");
+const consoleTable = require("console.table");
+const { title } = require("process")
+const db = require("./app/connection");
 
-runPrompts();
 
-const runPrompts = () => {
-  inquirer.prompt([
+async function runPrompts() {
+  const answer = await inquirer.prompt([
     {
       type: "list",
       name: "userChoice",
