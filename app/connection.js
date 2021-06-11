@@ -21,10 +21,25 @@ class Database {
       this.connection.end(err => {
         if (err) return reject(err);
         resolve();
-      });
+      })
     })
   }
 }
+  // connect to the database (db)
+function dbConnect(dbName, dbPassword){
+  
+    const db = new Database ({
+      host: "localhost",
+      user: "root",
+      port:3001,
+      // you need to enter your password, then create a database name below and create the table//
+      password: "",
+      database: "employee_db"
+  })
+  return db 
+}
+
+modules.exports = dbConnect
 
 
 
@@ -32,16 +47,4 @@ class Database {
 
 
 
-
-// connect to the database (db)
-function dbConnect(dbName, dbPassword)
-
-  const db = new Database ({
-    host: "localhost",
-    user: "root",
-    port:3001,
-    // you need to enter your password, then create a database name below and create the table//
-    password: "",
-    database: "employee_db",
-});
 
