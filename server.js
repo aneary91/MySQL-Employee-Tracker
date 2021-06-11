@@ -9,13 +9,12 @@ async function runPrompts() {
   const answer = await inquirer.prompt([
     {
       type: "list",
-      name: "userChoice",
+      name: "action",
       message: "What do you want to do today?",
-      choices: [{ name: "viewAllDepartments", value: "VIEW_DEPARTMENTS" },
-    {
-        name: 'addDepartment',
-        value: "ADD_DEPARTMENT"
-    }],
+      choices: [
+        'View all Employees'
+      ] 
+    
     },
     
   ])
