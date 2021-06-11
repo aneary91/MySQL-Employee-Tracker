@@ -39,13 +39,40 @@ swith(answer.action){
   case 'View all Employees by Manager':
     viewByManager();
     break;
-  
+  case 'Add Employee':
+    addEmployee();
+    break;
+  case 'Remove Employee':
+    removeEmployee();
+    break;
+  case 'Edit Employee Role':
+    editRole();
+    break;
+  case 'Edit Employee Manager':
+    editEmpManager();
+    break;
+  case 'Remove Manager':
+    removeManager();
+    break;
+  case 'View all Roles':
+    viewRoles();
+    break;
+  case 'Add Role':
+    addRole();
+    break;
+  case 'Remove Role':
+    removeRole();
+    break;
+  case 'View all Departments':
+    viewDepartments();
+    break;
+  case 'Add Departments':
+    addDepartment();
+    break;
+  case 'Remove Departments':
+    removeDepartment();
+    break;
+  default:
+    console.log ('Error')
 }
-
 };
-
-
-const viewDpts = () => {
-    db.viewAllDepartments()
-    .then
-}
