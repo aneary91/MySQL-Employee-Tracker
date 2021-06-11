@@ -5,7 +5,7 @@ const { title } = require("process")
 const db = require("./app/connection");
 
 
-async function runPrompts() {
+async function beginPrompt() {
   const answer = await inquirer.prompt([
     {
       type: "list",
@@ -74,5 +74,26 @@ swith(answer.action){
     break;
   default:
     console.log ('Error')
-}
+  }
 };
+
+// view the employees promt, and then joins databases
+async function viewEmployees(){
+  const employees = await db.query('SELECT e.id, e.first_name, e.last_name, r.title, d.department, r.salary, m.manager FROM employee AS e LEFT JOIN role AS r ON e.role_id = r.id LEFT JOIN departmentAS d on r.department_id = d.id LEFT JOIN manager AS m ON e.manager_id = m.id')
+}
+
+
+
+async function viewByDepartment(){
+  const departmentArr = await []
+  const database = await db.query('SELECT' * FROM 'department')
+  data.map(({department, id}) => {
+    departmentArr.push({name: department, value: id})
+  })
+  if (departmentArr.length == 0 ) {
+    console.log ('Error, no department found')
+    beginPrompt()
+
+    
+  }
+}
