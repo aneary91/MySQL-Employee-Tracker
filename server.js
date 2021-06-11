@@ -29,13 +29,18 @@ async function runPrompts() {
       ], 
     }
   ])
-
-  .then(answers => {
-    switch (answers.userChoice) {
-        case "VIEW_DEPARTMENTS": 
-        viewDpts()
-      }
-  })
+swith(answer.action){
+  case 'View all Employees':
+    viewEmployees();
+    break;
+  case 'View all Employees by Department':
+    viewByDepartment();
+    break;
+  case 'View all Employees by Manager':
+    viewByManager();
+    break;
+  
+}
 
 };
 
