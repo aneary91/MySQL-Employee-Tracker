@@ -16,7 +16,14 @@ class Database {
       })
     })
   }
-
+  close() {
+    return new Promise((resolve, reject) => {
+      this.connection.end(err => {
+        if (err) return reject(err);
+        resolve();
+      });
+    })
+  }
 }
 
 
