@@ -29,6 +29,7 @@ async function beginPrompt() {
       ], 
     }
   ])
+  //created a function for the question prompt
 swith(answer.action){
   case 'View all Employees':
     viewEmployees();
@@ -77,13 +78,18 @@ swith(answer.action){
   }
 };
 
-// view the employees promt, and then joins databases
+// view the employees prompt, and then joins databases
 async function viewEmployees(){
   const employees = await db.query('SELECT e.id, e.first_name, e.last_name, r.title, d.department, r.salary, m.manager FROM employee AS e LEFT JOIN role AS r ON e.role_id = r.id LEFT JOIN departmentAS d on r.department_id = d.id LEFT JOIN manager AS m ON e.manager_id = m.id')
+  if (employeeData.length == 0) {
+    console.log('Error: No employees found')
+    beginPrompt()
+  } else {
+    console.table(employeeData)
+    beginPrompt()
+  }
 }
-
-
-
+//view the departments prompt. then grab from the database
 async function viewByDepartment(){
   const departmentArr = await []
   const database = await db.query('SELECT' * FROM 'department')
@@ -92,8 +98,23 @@ async function viewByDepartment(){
   })
   if (departmentArr.length == 0 ) {
     console.log ('Error, no department found')
-    beginPrompt()
-
-    
+    beginPrompt()  
+  } else {
+    const answer = await inquirer.prompt([
+      {
+        message: 'Please select which department to view',
+        type: 'list',
+        choices: departmentArr,
+        name: department
+      }
+    ])
+    const departmentData = await db.query(`SELECT e.first_name, e.last_name FROM employee AS e LEFT JOIN role AS r ON e.role_id = r.id LEFT JOIN department AS d ON r.department_id = d.id WHERE d.id = ${answer.department}`)
+    if (departmentData.length == 0) {
+      console.log( 'There are no employees in this Department')
+      beginPrompt()
+    } else {
+      startPrompt()
+    }
   }
 }
+
