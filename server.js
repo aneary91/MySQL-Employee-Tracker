@@ -4,7 +4,6 @@ const consoleTable = require("console.table");
 const { title } = require("process")
 const db = require("./app/connection");
 
-
 async function beginPrompt() {
   const answer = await inquirer.prompt([
     {
@@ -77,7 +76,6 @@ swith(answer.action){
     console.log ('Error')
   }
 };
-
 // view the employees prompt, and then joins databases
 async function viewEmployees(){
   const employees = await db.query('SELECT e.id, e.first_name, e.last_name, r.title, d.department, r.salary, m.manager FROM employee AS e LEFT JOIN role AS r ON e.role_id = r.id LEFT JOIN departmentAS d on r.department_id = d.id LEFT JOIN manager AS m ON e.manager_id = m.id')
@@ -113,7 +111,7 @@ async function viewByDepartment(){
       console.log( 'There are no employees in this Department')
       beginPrompt()
     } else {
-      startPrompt()
+      beginPrompt()
     }
   }
 }
@@ -140,7 +138,47 @@ async function viewByManager(){
     if (managerData.length == 0) {
       console.log('There are no employees assigned to this manager')
       beginPrompt()
+    } else {
+      beginPrompt()
     }
   }
+}
+// add employee function 
+async function addEmployee(){
+  const roleArr = await db.query('SELECT * FROM role')
+  const role = roleArr.map(({title, id}) =>
+  ({name: title, value: id})
+  )
+  const managerArr = await db.query('SELECT * FROM employee')
+
+  const managers = managerArr.map(({fist_name, id}) =>
+  ({name: fist_name, value: id})
+  )
+  const questions = await inquirer.prompt([
+    {
+      message: 'What is the Employees fist name?',
+      type: 'input',
+      name: 'fist_name'
+    },
+    {
+      message: 'What is the Employees last name?',
+      type: 'input',
+      name: 'last_name'
+    },
+    {
+      message: 'What is the Employees roles?', 
+      type: 'list',
+      name: 'role_id',
+      choice: roles
+    },
+    {
+      message: 'Who is the employees manager?',
+      type:'list',
+      name: 'manager_id',
+      choice: managers
+    }
+  ])
+  await db.query('INSERT INTO employees SET ?' [questions])
+  beginPrompt();
 }
 
