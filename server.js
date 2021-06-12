@@ -76,6 +76,7 @@ swith(answer.action){
     console.log ('Error')
   }
 };
+
 // view the employees prompt, and then joins databases
 async function viewEmployees(){
   const employees = await db.query('SELECT e.id, e.first_name, e.last_name, r.title, d.department, r.salary, m.manager FROM employee AS e LEFT JOIN role AS r ON e.role_id = r.id LEFT JOIN departmentAS d on r.department_id = d.id LEFT JOIN manager AS m ON e.manager_id = m.id')
@@ -87,6 +88,7 @@ async function viewEmployees(){
     beginPrompt()
   }
 }
+
 //view the departments prompt. then grab from the database
 async function viewByDepartment(){
   const departmentArr = await []
@@ -115,6 +117,7 @@ async function viewByDepartment(){
     }
   }
 }
+
 // function to view employees by manager, and then grab from the dbC
 async function viewByManager(){
   const managerArr = []
@@ -143,6 +146,7 @@ async function viewByManager(){
     }
   }
 }
+
 // add employee function 
 async function addEmployee(){
   const roleArr = await db.query('SELECT * FROM role')
@@ -181,6 +185,7 @@ async function addEmployee(){
   await db.query('INSERT INTO employees SET ?' [questions])
   beginPrompt();
 }
+
 // remove employee function 
 async function removeEmployee() {
   const employeeData = await db.query('SELECT * FROM employee')
@@ -198,11 +203,12 @@ async function removeEmployee() {
     await db.query('DELETE FROM employee WHERE id = ${answer.id')
     viewEmployees()
 }
+
 // update an employee role function 
-async function editRoles() {
+async function editRole() {
   const employeeData = await db.query('SELECT * FROM employee')
   const employees = employeeData.map(({first_name, last_name, id}) =>
-  ({name:'${first_name}{last_name}', value:id})
+  ({name:'${first_name} ${last_name}', value:id})
   )
   const roleData = await db.query('SELECT * FROM role')
   const roles = roleData.map(({title, id}) =>
@@ -213,7 +219,7 @@ async function editRoles() {
         message: 'Choose an employee to update',
         type: 'list',
         name: 'employee',
-        choices: roles
+        choices: employees
       },
       {
         message: 'Choose a role to assign',
@@ -222,8 +228,38 @@ async function editRoles() {
         choice: roles
       }
     ])
-    await db.query('UPDATE employees SEY role_id = ${answer.updatedRole} WHERE id = ${anwser.employee}')
+    await db.query('UPDATE employees SET role_id = ${answer.updatedRole} WHERE id = ${anwser.employee}')
     beginPrompt()
 }
+
+//function to update manager of the employee
+async function editEmployeeManager() {
+  const employeeData = await db.query('SELECT * FROM employee')
+    const employees = employeeData.map(({first_name, last_name, id}) => 
+      ({name: '${first_name} ${last_name}', value: id})
+      )
+  const managerData = await db.query('SELECT * FROM manager')
+    const managers = managerData.map(({manager, id}) => 
+      ({name: manager, value: id})
+    )
+  const answer = await inquirer.prompt([
+    {
+      message: 'Choose the employee you want to update',
+      type: 'list',
+      name: 'employee',
+      choices: employees
+    },
+    {
+      message: 'Choose a manager to assign this employee to',
+      type: 'list',
+      name: 'newManager',
+      choices: managers
+    }
+  ])
+  await db.query('UPDATE employee SET manager_id = ${answer.newManager} WHERE id = ${answer.employee}')
+  beginPrompt()
+}
+
+//
 
 
