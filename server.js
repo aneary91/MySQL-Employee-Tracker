@@ -260,6 +260,22 @@ async function editEmployeeManager() {
   beginPrompt()
 }
 
-//
+//function to remove manager 
+async function removeManager(){
+  const managerData = await db.query('SELECT * FROM manager')
+    const managers = managerData.map(({manager, id}) => 
+      ({name: manager, value: id})
+    )
+  const answer = await inquirer.prompt([
+    {
+      message: 'Choose a mamager to remove',
+      type: 'list',
+      name: 'id',
+      choices: managers
+    }
+  ])
+  await db.query('DELETE FROM manager WHERE id = ${answer.id}')
+  beginPrompt()
+}
 
 
