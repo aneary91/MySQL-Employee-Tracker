@@ -318,3 +318,22 @@ async function addRole() {
   await db.query('INSERT INTO role SET ?', [answer])
   beginPrompt()
 }
+
+//funtion to remove a role 
+async function removeRole() {
+  const roleData = await db.query('SELECT * FROM role')
+    const roles = roleData.map(({title, id}) => 
+      ({name: title, value: id})
+    )
+  const answer = await inquirer.prompt([
+    {
+      message: 'Choose a role to remove',
+      type: 'list',
+      name: 'id',
+      choices: roles
+    }
+  ])
+  await db.query('DELETE FROM role WHERE id = ${answer.id}')
+  beginPrompt()
+}
+
