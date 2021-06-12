@@ -200,6 +200,30 @@ async function removeEmployee() {
 }
 // update an employee role function 
 async function editRoles() {
-  
+  const employeeData = await db.query('SELECT * FROM employee')
+  const employees = employeeData.map(({first_name, last_name, id}) =>
+  ({name:'${first_name}{last_name}', value:id})
+  )
+  const roleData = await db.query('SELECT * FROM role')
+  const roles = roleData.map(({title, id}) =>
+  ({name: title, value: id})
+  )
+    const answer = await inquirer.prompt([
+      {
+        message: 'Choose an employee to update',
+        type: 'list',
+        name: 'employee',
+        choices: roles
+      },
+      {
+        message: 'Choose a role to assign',
+        type: 'list',
+        name: 'updateRole',
+        choice: roles
+      }
+    ])
+    await db.query('UPDATE employees SEY role_id = ${answer.updatedRole} WHERE id = ${anwser.employee}')
+    beginPrompt()
 }
+
 
