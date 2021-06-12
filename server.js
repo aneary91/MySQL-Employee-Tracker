@@ -117,4 +117,30 @@ async function viewByDepartment(){
     }
   }
 }
+// function to view employees by manager, and then grab from the dbC
+async function viewByManager(){
+  const managerArr = []
+  const data = await db.query('SELECT * FROM manager')
+  data.map(({manager, id}) => {
+    managerArr.push({name: manager, value: id})
+  })
+  if (managerArry.length == 0 ){
+    console.log('No managers found')
+    beginPrompt()
+  } else {
+    const answer = await inquirer.prompt([
+      {
+        message: 'Select a manager list to view',
+        type: 'list',
+        choices: 'managerArr',
+        name: 'manager'
+      }
+    ])
+    const managerData = await db.query('SELECT e.first_name,e.last_name FROM employee AS e WHERE e.manager_id = ${answer.manager}')
+    if (managerData.length == 0) {
+      console.log('There are no employees assigned to this manager')
+      beginPrompt()
+    }
+  }
+}
 
