@@ -337,3 +337,15 @@ async function removeRole() {
   beginPrompt()
 }
 
+//function to view all departments
+async function addDepartment() {
+  const answer = await inquirer.prompt([
+    {
+      message: 'Enter the name of the Department youd like to add',
+      type: 'input',
+      name: 'department'
+    }
+  ])
+  await db.query('INSERT INTO department SET ?', [answer])
+  beginPrompt()
+}
