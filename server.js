@@ -266,6 +266,7 @@ async function removeManager(){
     const managers = managerData.map(({manager, id}) => 
       ({name: manager, value: id})
     )
+    
   const answer = await inquirer.prompt([
     {
       message: 'Choose a mamager to remove',
@@ -276,6 +277,17 @@ async function removeManager(){
   ])
   await db.query('DELETE FROM manager WHERE id = ${answer.id}')
   beginPrompt()
-}
+};
 
+// function to view the roles of the employees 
+asnyc function viewRoles() {
+  const roleData = await db.query('SELECT * FROM roles')
+  if (roleData.length == 0){
+    console.log('Error: this list is empty')
+    beginPrompt()
+  } else {
+    console.table(roleData)
+    beginPrompt()
+  }
+}
 
