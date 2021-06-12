@@ -280,7 +280,7 @@ async function removeManager(){
 };
 
 // function to view the roles of the employees 
-asnyc function viewRoles() {
+async function viewRoles() {
   const roleData = await db.query('SELECT * FROM roles')
   if (roleData.length == 0){
     console.log('Error: this list is empty')
@@ -291,3 +291,30 @@ asnyc function viewRoles() {
   }
 }
 
+//function to add a role 
+async function addRole() {
+  const departmentData = await db.query('SELECT * FROM department')
+    const departments = departmentData.map(({department, id}) =>
+      ({name: department, value: id})
+    )
+  const answer = await inquirer.prompt([
+    {
+      message: 'What role do you wish to add?',
+      type: 'input',
+      name: 'title'
+  },
+  {
+      message: 'Please input the salary for this role',
+      type: 'input',
+      name: 'salary'
+  },
+  {
+      message: 'Choose a Department to assign this role to',
+      type: 'list',
+      name: 'department_id',
+      choices: departments
+    }
+  ])
+  await db.query('INSERT INTO role SET ?', [answer])
+  beginPrompt()
+}
