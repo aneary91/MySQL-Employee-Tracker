@@ -181,4 +181,25 @@ async function addEmployee(){
   await db.query('INSERT INTO employees SET ?' [questions])
   beginPrompt();
 }
+// remove employee function 
+async function removeEmployee() {
+  const employeeData = await db.query('SELECT * FROM employee')
+  const employees = employeeData.map(({first_name, last_name}) =>
+  ({name: first_name, last_name, value: id})
+  )
+    const answer = await inqiurer.prompt([
+      {
+        message: 'Please choose an Employee to remove',
+        type: 'list',
+        name: 'id',
+        choices: employees
+      }
+    ])
+    await db.query('DELETE FROM employee WHERE id = ${answer.id')
+    viewEmployees()
+}
+// update an employee role function 
+async function editRoles() {
+  
+}
 
