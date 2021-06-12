@@ -349,3 +349,23 @@ async function addDepartment() {
   await db.query('INSERT INTO department SET ?', [answer])
   beginPrompt()
 }
+
+//function to remove a department
+async function removeDepartment() {
+  departmentData = await db.query('SELECT * FROM department')
+    const deparments = departmentData.map(({department, id}) => 
+      ({name: department, value: id})
+    )
+    const answer = await inquirer.prompt([
+      {
+        message: 'Slect a department to remove',
+        type: 'list',
+        name: 'id',
+        choices: departments  
+      }
+    ])
+    await db.query('DELETE FROM department WHERE id = `${answer.id}`')
+    await db.query('DELETE FROM role WHERE department_id = `${answer.id}`')
+}
+
+beginPrompt();
