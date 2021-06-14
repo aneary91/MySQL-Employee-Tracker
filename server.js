@@ -2,7 +2,7 @@ const inquirer = require("inquirer");
 const mysql = require("mysql");
 const consoleTable = require("console.table");
 const { title } = require("process")
-const db = require("./app/connection");
+const db = require("./app/connection")('employees', 'aneary91');
 
 async function beginPrompt() {
   const answer = await inquirer.prompt([
@@ -29,7 +29,7 @@ async function beginPrompt() {
     }
   ])
   //created a function for the question prompt
-swith(answer.action){
+switch(answer.action){
   case 'View all Employees':
     viewEmployees();
     break;
@@ -79,7 +79,7 @@ swith(answer.action){
 
 // view the employees prompt, and then joins databases
 async function viewEmployees(){
-  const employees = await db.query('SELECT e.id, e.first_name, e.last_name, r.title, d.department, r.salary, m.manager FROM employee AS e LEFT JOIN role AS r ON e.role_id = r.id LEFT JOIN departmentAS d on r.department_id = d.id LEFT JOIN manager AS m ON e.manager_id = m.id')
+  const employeeData = await db.query('SELECT e.id, e.first_name, e.last_name, r.title, d.department, r.salary, m.manager FROM employee AS e LEFT JOIN role AS r ON e.role_id = r.id LEFT JOIN departmentAS d on r.department_id = d.id LEFT JOIN manager AS m ON e.manager_id = m.id')
   if (employeeData.length == 0) {
     console.log('Error: No employees found')
     beginPrompt()
@@ -92,7 +92,7 @@ async function viewEmployees(){
 //view the departments prompt. then grab from the database
 async function viewByDepartment(){
   const departmentArr = await []
-  const database = await db.query('SELECT' * FROM 'department')
+  const data = await db.query('SELECT () FROM department')
   data.map(({department, id}) => {
     departmentArr.push({name: department, value: id})
   })
@@ -150,7 +150,7 @@ async function viewByManager(){
 // add employee function 
 async function addEmployee(){
   const roleArr = await db.query('SELECT * FROM role')
-  const role = roleArr.map(({title, id}) =>
+  const roles = roleArr.map(({title, id}) =>
   ({name: title, value: id})
   )
   const managerArr = await db.query('SELECT * FROM employee')
@@ -233,7 +233,7 @@ async function editRole() {
 }
 
 //function to update manager of the employee
-async function editEmployeeManager() {
+async function editEmpManager() {
   const employeeData = await db.query('SELECT * FROM employee')
     const employees = employeeData.map(({first_name, last_name, id}) => 
       ({name: '${first_name} ${last_name}', value: id})
@@ -353,7 +353,7 @@ async function addDepartment() {
 //function to remove a department
 async function removeDepartment() {
   departmentData = await db.query('SELECT * FROM department')
-    const deparments = departmentData.map(({department, id}) => 
+    const departments = departmentData.map(({department, id}) => 
       ({name: department, value: id})
     )
     const answer = await inquirer.prompt([
