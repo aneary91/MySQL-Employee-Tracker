@@ -1,8 +1,8 @@
-const inquirer = require("inquirer");
-const mysql = require("mysql");
-const consoleTable = require("console.table");
+const inquirer = require("inquirer")
+const consoleTable = require("console.table")
 const { title } = require("process")
-const db = require("./app/connection")('employees', 'aneary91');
+const db = require("./app/connection")('employees', 'aneary91')
+const mysql = require('mysql')
 
 async function beginPrompt() {
   const answer = await inquirer.prompt([
